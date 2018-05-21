@@ -1,0 +1,17 @@
+{
+  "name": "homomorphic-payment",
+  "version": "1.0.0",
+  "description": "Homomorphic payment in Ethereum",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server"
+  },
+  "author": "Douglas von Kohorn",
+  "license": "MIT",
+  "devDependencies": {
+    "web3": "^0.20.6",
+    "webpack": "^4.8.3",
+    "webpack-dev-server": "^3.1.4",
+    "copy-webpack-plugin": "^4.5.1"
+  }
+}
