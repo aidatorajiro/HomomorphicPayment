@@ -37,13 +37,14 @@ let hom = window.web3.eth.contract(hom_artifact.abi)
     });
 
   setStatus = function(message) {
-    var status = document.getElementById("status");
+    let status = document.getElementById("status");
     status.innerHTML = message;
   }
 
   depositCoin = function() {
 
-    var amount = parseInt(document.getElementById("amount").value);
-    var receiver = document.getElementById("receiver").value;
-    
+    let amount = parseInt(document.getElementById("amount").value);
+    let receivers = document.getElementById("receiver").value,split(",");
+
+  hom.mint(
  }
