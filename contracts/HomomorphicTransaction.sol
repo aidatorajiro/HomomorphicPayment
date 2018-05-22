@@ -1,5 +1,4 @@
-// import {EC} from "./EC.sol";
-import {Secp256k1} from "https://github.com/androlo/standard-contracts/contracts/src/crypto/Secp256k1.sol";
+import "./Secp256k1.sol";
 
 contract HomomorphicTransaction {
     uint constant p = 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f;
