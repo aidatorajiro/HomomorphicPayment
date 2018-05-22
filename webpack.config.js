@@ -8,9 +8,13 @@ module.exports = {
     filename: 'bundle.js'
   },
   plugins: [
-    // Copy our app's index.html to the build folder.
+    // Copy index.html to the dist folder.
     new CopyWebpackPlugin([
       { from: './app/index.html', to: "index.html" }
     ])
-  ]
+  ],
+  devServer: {
+    contentBase: 'dist',
+    port: 3000
+  }
 }
