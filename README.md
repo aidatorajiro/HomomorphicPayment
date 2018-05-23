@@ -6,7 +6,7 @@ The payment system is based on a basic DAG transactions. The smart contract chec
 
 ## How to run
 
-### Frontend
-
-### Contract
-
+1. ```npm install -g truffle```
+2. ```npm install```
+3. ```truffle migrate```
+4. ```npm run dev``` (Will launch dev server)
