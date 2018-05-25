@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import TruffleContract from 'truffle-contract'
 import artifact from '../build/contracts/HomomorphicTransaction.json'
 import elliptic from 'elliptic'
-import BN from 'bn.js';
+import BN from 'bn.js'
 
 let ec = elliptic.ec('secp256k1')
 
@@ -26,8 +26,8 @@ if (window.web3 !== undefined) {
 {
   let c = TruffleContract(artifact)
   c.setProvider(web3.currentProvider)
-  c.deployed().then((result) => {
-    hom = result
+  c.deployed().then(r => {
+    hom = r
   })
 }
 
@@ -60,18 +60,46 @@ let setStatus = function (message) {
   status.innerHTML = message;
 }
 
+let randomBN = function () {
+  let array = new Uint16Array(8)
+  window.crypto.getRandomValues(array)
+  let n = new BN(array[0])
+  n
+  .ishln(16)
+  .iaddn(array[1])
+  .ishln(16)
+  .iaddn(array[2])
+  .ishln(16)
+  .iaddn(array[3])
+  .ishln(16)
+  .iaddn(array[4])
+  .ishln(16)
+  .iaddn(array[5])
+  .ishln(16)
+  .iaddn(array[6])
+  .ishln(16)
+  .iaddn(array[7])
+  return n
+}
+
 let depositCoin = function () {
   let values = [document.getElementById("amount1").value, document.getElementById("amount2").value, document.getElementById("amount3").value]
   let receivers = [document.getElementById("receiver1").value, document.getElementById("receiver2").value, document.getElementById("receiver3").value]
 
-  let amounts = values.map(x => new BN(web3.toWei(x)).add(new BN(Math.floor(Math.random() * 1e+10))))
-  let total = amounts.reduce((x, y) => x.add(y))
-  let points = amounts.map(x => ec.g.mul(x))
+  // each input amount
+  let amounts  = values.map(x => new BN(web3.toWei(x)).shln(128).add(randomBN()))
+  // sum of inputs
+  let total    = amounts.reduce((x, y) => x.add(y))
+  // encrypted input
+  let points   = amounts.map(x => ec.g.mul(x))
+  // argument to the contract
   let argument = points.map((p, i) => [p.x.toString(), p.y.toString(), receivers[i]])
 
-  console.log(values, receivers, amounts, total, points, argument, ec.g.mul(total.toString()))
+  console.log(amounts.map(x => x.toString()))
+  console.log(total.toString())
+  console.log(argument)
 
-  hom.mint.sendTransaction(argument, {value: total, from: account}, console.log)
+  hom.mint.sendTransaction(total.toString(), argument, {value: total.shrn(128).addn(1).toString(), from: account, gas: 700000}, console.log)
 }
 
 document.getElementById("deposit").addEventListener('click', depositCoin)

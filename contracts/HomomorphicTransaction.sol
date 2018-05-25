@@ -13,10 +13,10 @@ contract HomomorphicTransaction {
     mapping (uint => uint[5][]) public txins;  // txindex, txoutindex, v, r, s
     mapping (uint => uint[3][]) public txouts; // amount_x, amount_y, pubkeyHash
     
-    function mint(uint[3][] _outputs) public payable {
-        require(msg.value > 0);
+    function mint(uint256 amount, uint[3][] _outputs) public payable {
+        require(msg.value > (amount >> 128));
         
-        uint[3] memory amount_in = Secp256k1._mul(msg.value, [baseX, baseY]);
+        uint[3] memory amount_in = Secp256k1._mul(amount, [baseX, baseY]);
         
         uint[3] memory amount_out;
         
